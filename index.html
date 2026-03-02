@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COREKIT | Keep Innovating Thyself</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Tiro+Bangla&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+    async function loadCoreSystems() {
+        try {
+            // 1. Fetch Global Settings (Quote & Title)
+            const settingsResp = await fetch('./data/settings.json');
+            const settings = await settingsResp.json();
+            
+            document.title = settings.seo_title;
+            if (settings.quote_mode === 'manual') {
+                const quoteEl = document.querySelector('.font-bengali.text-2xl');
+                if (quoteEl) quoteEl.innerText = settings.manual_quote;
+            }
+
+            // 2. Fetch Tools (From your existing tools.json)
+            const toolsResp = await fetch('tools.json');
+            const data = await toolsResp.json();
+            const grid = document.getElementById('tool-grid');
+            
+            grid.innerHTML = data.tools.map(tool => `
+                <div class="bg-white dark:bg-darkCard p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all group">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center rounded-2xl mb-6 font-black text-xl">
+                        ${tool.icon}
+                    </div>
+                    <h3 class="text-xl font-black mb-2 group-hover:text-blue-600 transition">${tool.name}</h3>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">${tool.desc}</p>
+                    <a href="tool.html?id=${tool.id}" class="inline-flex items-center text-xs font-black uppercase tracking-widest text-blue-600">
+                        Launch Tool <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                </div>
+            `).join('');
+
+        } catch (err) {
+            console.error("Core Stability Error:", err);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCoreSystems);
+</script>
+    <style>
+        .font-bengali { font-family: 'Tiro Bangla', serif; }
+        .pulse-green { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-darkBg font-sans text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-darkBg/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 py-3 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="flex flex-col group cursor-default">
+                    <h1 class="text-2xl font-black tracking-tighter leading-none">
+                        <span class="text-gray-900 dark:text-white">CORE</span><span class="text-blue-600">KIT</span>
+                    </h1>
+                    <span class="text-[7px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-[0.3em] mt-1.5 ml-0.5 transition-colors group-hover:text-blue-500">
+                        Keep Innovating Thyself
+                    </span>
+                </div>
+                <div class="hidden lg:flex items-center space-x-2 bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full border border-green-100 dark:border-green-800">
+                    <span class="w-2 h-2 bg-green-500 rounded-full pulse-green"></span>
+                    <span class="text-[10px] font-bold text-green-700 dark:text-green-400 uppercase">Systems Nominal</span>
+                </div>
+            </div>
+
+            <div class="flex-1 max-w-md hidden md:block">
+                <div class="relative">
+                    <input type="text" placeholder="Search for tools... (Ctrl + K)" class="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition">
+                    <svg class="w-4 h-4 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex items-center space-x-4 text-sm font-bold border-r pr-4 border-gray-200 dark:border-gray-700">
+                    <a href="#" class="hover:text-blue-600">Login</a>
+                    <a href="#" class="text-blue-600">Register</a>
+                </div>
+                <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="pt-16 pb-12 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl md:text-7xl font-black text-gray-900 dark:text-white leading-tight">Keep Innovating <span class="text-blue-600">Thyself</span></h2>
+            <p class="text-gray-500 dark:text-gray-400 mt-6 text-lg">Simple. Fast. <span class="text-blue-600 font-bold">Secure.</span></p>
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/30">Get Started</button>
+                <button class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-8 py-4 rounded-2xl font-bold">Browse Tools</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-6 mb-20">
+        <div class="flex items-center p-4 bg-white dark:bg-darkCard rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center rounded-full mr-4 font-bold">✓</div>
+            <div><p class="font-bold text-sm">Free Forever</p></div>
+        </div>
+        <div class="flex items-center p-4 bg-white dark:bg-darkCard rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center rounded-full mr-4 font-bold">🔒</div>
+            <div><p class="font-bold text-sm">Privacy Focused</p></div>
+        </div>
+        <div class="flex items-center p-4 bg-white dark:bg-darkCard rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+            <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 flex items-center justify-center rounded-full mr-4 font-bold">⚡</div>
+            <div><p class="font-bold text-sm">Lightning Fast</p></div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-6 mb-24">
+        <div class="bg-blue-600 p-8 rounded-[2.5rem] text-white text-center">
+            <h3 class="text-4xl font-black">10+</h3>
+            <p class="uppercase text-[10px] font-bold tracking-widest opacity-80 mt-2">Online Tools</p>
+        </div>
+        <div class="bg-white dark:bg-darkCard p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 text-center">
+            <h3 class="text-4xl font-black text-blue-600">100K+</h3>
+            <p class="uppercase text-[10px] font-bold tracking-widest text-gray-400 mt-2">Happy Users</p>
+        </div>
+        <div class="bg-white dark:bg-darkCard p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 text-center">
+            <h3 class="text-4xl font-black text-blue-600">24/7</h3>
+            <p class="uppercase text-[10px] font-bold tracking-widest text-gray-400 mt-2">Support Available</p>
+        </div>
+    </div>
+
+    <section class="px-6 max-w-7xl mx-auto mb-24">
+        <div class="flex items-center justify-between mb-10">
+            <h3 class="text-2xl font-black uppercase tracking-tighter italic">Precision Utilities</h3>
+            <a href="#" class="text-blue-600 font-bold text-sm">View All Tools →</a>
+        </div>
+        <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-20 opacity-50 font-bold uppercase tracking-widest text-xs">
+                Syncing with Core Registry...
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-100 dark:bg-gray-900 py-16 px-6 border-y border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h4 class="text-xs font-black text-blue-600 uppercase tracking-widest mb-4">Random Quotes</h4>
+                <p class="font-bengali text-2xl md:text-3xl text-gray-800 dark:text-gray-200 leading-relaxed italic">
+                    "ধৈর্যশীল মানুষের জেদ খুব ভয়ঙ্কর জিনিস।"
+                </p>
+            </div>
+            <div class="text-right md:border-l border-gray-300 dark:border-gray-700 md:pl-12">
+                <p class="text-lg text-gray-500 dark:text-gray-400 italic mb-4">
+                    "If you cannot get rid of the family skeleton, you may as well make it dance."
+                </p>
+                <button class="bg-white dark:bg-gray-800 px-6 py-2 rounded-xl text-xs font-bold border border-gray-200 dark:border-gray-700">More Quotes</button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pt-20 pb-10 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-1">
+                <h4 class="text-xl font-black mb-2"><span class="text-gray-900 dark:text-white">CORE</span><span class="text-blue-600">KIT</span></h4>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Keep Innovating Thyself</p>
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-3xl border border-blue-100 dark:border-blue-800 inline-flex flex-col">
+                    <span class="font-bengali text-blue-800 dark:text-blue-300 text-2xl mb-1">সোমবার</span>
+                    <span class="text-blue-600 dark:text-blue-400 font-black text-sm uppercase">০২ মার্চ, ২০২৬</span>
+                    <span class="font-bengali text-blue-400 dark:text-blue-500 text-sm mt-1 uppercase">১৭ ফাল্গুন, ১৪০২ বঙ্গাব্দ</span>
+                </div>
+            </div>
+            <div>
+                <h5 class="font-bold text-xs uppercase tracking-widest mb-6">Quick Links</h5>
+                <ul class="text-sm text-gray-500 dark:text-gray-400 space-y-4">
+                    <li><a href="#" class="hover:text-blue-600">> Home</a></li>
+                    <li><a href="#" class="hover:text-blue-600">> All Tools</a></li>
+                    <li><a href="#" class="hover:text-blue-600">> Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold text-xs uppercase tracking-widest mb-6">Systems</h5>
+                <div class="text-sm text-gray-500 dark:text-gray-400 space-y-2">
+                    <p>Total Online: <span class="text-blue-600 font-bold">40</span></p>
+                    <p>Status: <span class="text-green-500 font-bold uppercase text-[10px]">Active</span></p>
+                </div>
+            </div>
+            <div>
+                <h5 class="font-bold text-xs uppercase tracking-widest mb-6">Install App</h5>
+                <button class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-600/30">
+                    Get Desktop App
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+        } else {
+            darkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // --- DYNAMIC GRID LOGIC ---
+        async function fetchTools() {
+            const grid = document.getElementById('tool-grid');
+            try {
+                const response = await fetch('tools.json');
+                const data = await response.json();
+                
+                grid.innerHTML = data.tools.map(tool => `
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all group">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center rounded-2xl mb-6 font-black text-xl">
+                            ${tool.icon}
+                        </div>
+                        <h3 class="text-xl font-black mb-2 group-hover:text-blue-600 transition">${tool.name}</h3>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm mb-6">${tool.desc}</p>
+                        <a href="tool.html?id=${tool.id}" class="inline-flex items-center text-xs font-black uppercase tracking-widest text-blue-600">
+                            Launch Tool <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                        </a>
+                    </div>
+                `).join('');
+            } catch (err) {
+                grid.innerHTML = `<p class="col-span-full text-center text-red-500 font-bold uppercase tracking-widest text-[10px]">Registry Offline. Create tools.json to proceed.</p>`;
+                console.error("Core Error:", err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchTools);
+    </script>
+</body>
+</html>

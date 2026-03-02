@@ -1,0 +1,32 @@
+backend:
+  name: git-gateway
+  branch: main # Or your default branch
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "general"
+        label: "General Configuration"
+        file: "data/settings.json"
+        fields:
+          - {label: "SEO Title", name: "seo_title", widget: "string"}
+          - {label: "Manual Quote", name: "manual_quote", widget: "text"}
+          - {label: "Quote Mode", name: "quote_mode", widget: "select", options: ["api", "manual"]}
+
+  - name: "tools"
+    label: "Tools Registry"
+    folder: "data/tools"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Tool Name", name: "title", widget: "string"}
+      - {label: "Icon (Emoji)", name: "icon", widget: "string"}
+      - {label: "Description", name: "desc", widget: "text"}
+      - {label: "Featured", name: "featured", widget: "boolean", default: true}

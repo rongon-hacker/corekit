@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tool | COREKIT</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Tiro+Bangla&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], bengali: ['Tiro Bangla', 'serif'] },
+                    colors: { darkBg: '#0f172a', darkCard: '#1e293b' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white flex items-center justify-center h-screen font-sans">
+    <div class="text-center p-10 border border-gray-800 rounded-[3rem] bg-darkCard">
+        <div id="tool-icon" class="text-6xl mb-6 animate-pulse">⚙️</div>
+        <h1 id="tool-name" class="text-3xl font-black italic mb-2 tracking-tighter uppercase">SYSTEM INITIALIZING</h1>
+        <p id="tool-status" class="text-blue-500 font-bold text-xs uppercase tracking-[0.3em] mb-8">Status: In Development</p>
+        
+        <div class="w-64 bg-gray-800 h-2 rounded-full mx-auto overflow-hidden">
+            <div class="bg-blue-600 h-full w-2/3 animate-pulse"></div>
+        </div>
+        
+        <p class="text-gray-500 text-sm mt-8 max-w-xs mx-auto">
+            This module is being optimized for the COREKIT ecosystem. Check back shortly.
+        </p>
+        
+        <a href="index.html" class="inline-block mt-10 text-xs font-black border-b border-blue-600 pb-1 hover:text-blue-600">← RETURN TO CORE</a>
+    </div>
+
+    <script>
+        // Professional Logic: Get tool info from the URL
+        const params = new URLSearchParams(window.location.search);
+        const toolId = params.get('id');
+
+        // Check if tool actually exists (Logic to build later)
+        if (toolId === 'age-calculator') {
+            // Redirect to actual tool or load tool logic
+            console.log("Loading Age Calculator...");
+        } else {
+            // Update the 'Coming Soon' text to match the tool they clicked
+            document.getElementById('tool-name').innerText = toolId.replace(/-/g, ' ');
+        }
+    </script>
+</body>
+</html>
